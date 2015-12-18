@@ -34,7 +34,12 @@ public class SpritePhisicsScript : MonoBehaviour
 
         }
         this.myrigid.Position = new Vector2(this.transform.position.x, this.transform.position.y);
+        
         calc();
+        if (this.parent != null)
+        {
+            this.myrigid.CalcGravity();
+        }
         this.myrigid.Update();
     }
 
@@ -50,8 +55,16 @@ public class SpritePhisicsScript : MonoBehaviour
         if (this.parent != null)
         {
             this.m_currentLengthToParent = this.LengthToParent();
-
-            myrigid.AddForce((this.parent.myrigid.Position - this.myrigid.Position).normalized * this.parameter.K * (this.m_currentLengthToParent - this.m_initLengthToParent) - this.myrigid.Velocity * this.parameter.Fliction);
+            
+            myrigid.AddForce((this.parent.myrigid.Position - this.myrigid.Position).normalized * this.parameter.K * (this.m_currentLengthToParent - this.m_initLengthToParent) );
         }
+        if (this.child != null)
+        {
+            this.child.m_currentLengthToParent = this.child.LengthToParent();
+
+            myrigid.AddForce((this.child.myrigid.Position - this.myrigid.Position).normalized * this.parameter.K * (this.child.m_currentLengthToParent - this.child.m_initLengthToParent));
+            
+        }
+        myrigid.AddForce(-this.myrigid.Velocity * this.parameter.Fliction);
     }
 }
