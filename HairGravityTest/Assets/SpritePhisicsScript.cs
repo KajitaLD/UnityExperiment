@@ -11,6 +11,7 @@ public class SpritePhisicsScript : MonoBehaviour
     public float m_currentLengthToParent;
 
     public parameter parameter;
+    public float Fuwari;
 
     // Use this for initialization
     void Start()
@@ -27,7 +28,14 @@ public class SpritePhisicsScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (this.myrigid.Velocity.y < 0)
+        {
+            this.Fuwari = 0.7f;
+        }
+        else
+        {
+            this.Fuwari = 1;
+        }
         if (this.parent != null)
         {
             this.transform.position = new Vector3(this.myrigid.Position.x, this.myrigid.Position.y, 0);
@@ -51,7 +59,7 @@ public class SpritePhisicsScript : MonoBehaviour
         {
             this.m_currentLengthToParent = this.LengthToParent();
 
-            myrigid.AddForce((this.parent.myrigid.Position - this.myrigid.Position).normalized * this.parameter.K * (this.m_currentLengthToParent - this.m_initLengthToParent) - this.myrigid.Velocity * this.parameter.Fliction);
+            myrigid.AddForce((this.parent.myrigid.Position - this.myrigid.Position).normalized * this.parameter.K * (this.m_currentLengthToParent - this.m_initLengthToParent) - this.myrigid.Velocity * this.parameter.Fliction * this.Fuwari);
         }
     }
 }

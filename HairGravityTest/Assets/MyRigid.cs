@@ -13,7 +13,9 @@ public class MyRigid2D {
 	}
     public void Update()
     {
+        
         this.Velocity += this.Accell ;
+        this.Velocity.y *= 0.9f;
         this.Position += this.Velocity ;
     }
 
